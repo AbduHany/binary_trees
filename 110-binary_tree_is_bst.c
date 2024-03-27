@@ -61,7 +61,7 @@ int is_bst(const binary_tree_t *tree)
 			return (0);
 	}
 
-	/* checking for left and right values in comparison to roots */
+	/* checking if left and right subtrees are BSTs */
 	bts_flag &= is_bst(tree->left);
 	bts_flag &= is_bst(tree->right);
 	return (bts_flag);
