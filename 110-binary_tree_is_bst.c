@@ -35,12 +35,12 @@ int get_min(const binary_tree_t *tree)
 }
 
 /**
- * binary_tree_is_bst - checks if a binary tree is a valid Binary Search Tree.
+ * is_bst - checks if a valid (NON-NULL) tree is a BST.
  * @tree: pointer to the root node of the tree to check.
  *
  * Return: 1 if tree is valid BST and 0 otherwise.
  */
-int binary_tree_is_bst(const binary_tree_t *tree)
+int is_bst(const binary_tree_t *tree)
 {
 	int bts_flag = 1, min_right, max_left;
 
@@ -62,7 +62,26 @@ int binary_tree_is_bst(const binary_tree_t *tree)
 	}
 
 	/* checking for left and right values in comparison to roots */
-	bts_flag &= binary_tree_is_bst(tree->left);
-	bts_flag &= binary_tree_is_bst(tree->right);
+	bts_flag &= is_bst(tree->left);
+	bts_flag &= is_bst(tree->right);
+	return (bts_flag);
+
+}
+
+/**
+ * binary_tree_is_bst - checks if a binary tree is a valid Binary Search Tree.
+ * @tree: pointer to the root node of the tree to check.
+ *
+ * Return: 1 if tree is valid BST and 0 otherwise.
+ */
+int binary_tree_is_bst(const binary_tree_t *tree)
+{
+	int bts_flag = 1;
+
+	if (tree == NULL)
+		return (0);
+
+	else
+		bts_flag = is_bst(tree);
 	return (bts_flag);
 }
