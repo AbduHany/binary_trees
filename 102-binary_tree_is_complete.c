@@ -31,6 +31,7 @@ int check_complete(const binary_tree_t *tree, size_t nodes_count,
 		   size_t node_index)
 {
 	int is_complete_flag = 1;
+
 	if (tree == NULL)
 		return (1);
 	if (node_index >= nodes_count)
