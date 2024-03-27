@@ -12,12 +12,17 @@ int binary_tree_is_full(const binary_tree_t *tree)
 
 	if (tree == NULL)
 		return (0);
+	/* leaf encountered */
 	if (tree->left == NULL && tree->right == NULL)
 		return (1);
-	is_full_flag &= binary_tree_is_full(tree->left);
-	is_full_flag &= binary_tree_is_full(tree->right);
+	/* a node is found with only 1 child */
 	if ((tree->left && !(tree->right)) ||
 	    (tree->right && !(tree->left)))
 		is_full_flag = 0;
+
+	/* recursive calls to left and right sides with & operator */
+	is_full_flag &= binary_tree_is_full(tree->left);
+	is_full_flag &= binary_tree_is_full(tree->right);
+
 	return (is_full_flag);
 }
