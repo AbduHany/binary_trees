@@ -52,13 +52,33 @@ bst_t *insert_bst(bst_t **tree, int value)
 avl_t *avl_insert(avl_t **tree, int value)
 {
 	avl_t *newnode, *cursor;
+	int bf;
 
 	newnode = insert_bst(tree, value);
-	cursor = newnode->parent;
+	cursor = newnode;
 	while (cursor)
 	{
-		if (binary_tree_balance(cursor) > 1)
-		cursor = cursor->parent
+		bf = binary_tree_balance(cursor);
+		if (bf != 0 && bf != 1 && bf != -1)
+		{
+			if (value > cursor->n &&
+			    value > cursor->right->n)
+				binary_tree_rotate_left(cursor);
+			else if (value < cursor->n &&
+				 value < cursor->left->n)
+				binary_tree_rotate_right(cursor);
+			else if (value < cursor->n && value > cursor->left->n)
+			{
+				binary_tree_rotate_left(cursor->left);
+				binary_tree_rotate_right(cursor);
+			}
+			else if (value > cursor->n && value < cursor->right->n)
+			{
+				binary_tree_rotate_right(cursor->right);
+				binary_tree_rotate_left(cursor);
+			}
+		}
+		cursor = cursor->parent;
 	}
 	return (newnode);
 }
