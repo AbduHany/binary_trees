@@ -42,7 +42,7 @@ avl_t *delete_2_children(avl_t *to_delete)
 	while (cursor->left)
 		cursor = cursor->left;
 	successor_val = cursor->n;
-        successor = find_node(to_delete, successor_val);
+	successor = find_node(to_delete, successor_val);
 	if (successor->parent == to_delete)
 	{
 		successor->left = to_delete->left;
@@ -175,17 +175,17 @@ avl_t *avl_remove(avl_t *root, int value)
 		(to_delete->right && to_delete->left == NULL))
 	{
 		replacement = delete_1_child(to_delete);
+		check_balance(replacement);
 		if (replacement->parent == NULL)
 			return (replacement);
-		check_balance(replacement);
 	}
 	/* node has 2 children */
 	else if (to_delete->left && to_delete->right)
 	{
 		replacement = delete_2_children(to_delete);
+		check_balance(replacement);
 		if (replacement->parent == NULL)
 			return (replacement);
-		check_balance(replacement);
 	}
 	return (root);
 }
