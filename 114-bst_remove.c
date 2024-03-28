@@ -45,6 +45,39 @@ int find_successor(const binary_tree_t *tree)
 }
 
 /**
+ * delete_2_children - deletes a node in a BST if it has 2 children
+ * @to_delete: pointer to the node to be deleted.
+ *
+ * Return: pointer to the node that replaces the deleted node.
+ */
+bst_t *delete_2_children(bst_t *to_delete)
+{
+	return (to_delete);
+}
+
+/**
+ * delete_1_child - deletes a node in a BST that has only 1 child.
+ * @to_delete: pointer to node to be deleted.
+ *
+ * Return: pointer to the node that replaces deleted node.
+ */
+bst_t *delete_1_child(bst_t *to_delete)
+{
+	bst_t *prev, *next;
+
+	prev = to_delete->parent;
+	next = to_delete->left == NULL ? to_delete->right
+		: to_delete->left;
+	next->parent = prev;
+	if (prev->left == to_delete)
+		prev->left = next;
+	else
+		prev->right = next;
+	free(to_delete);
+	return (prev);
+}
+
+/**
  * bst_remove - removes a node from a Binary Search Tree.
  * @root: pointer to the root node of the tree where
  * you will remove a node
@@ -55,8 +88,7 @@ int find_successor(const binary_tree_t *tree)
  */
 bst_t *bst_remove(bst_t *root, int value)
 {
-	bst_t *to_delete, *prev, *next, *successor;
-	int successor_val;
+	bst_t *to_delete, *prev;
 
 	if (root == NULL)
 		return (NULL);
@@ -71,28 +103,11 @@ bst_t *bst_remove(bst_t *root, int value)
 		else
 			prev->right = NULL;
 		free(to_delete);
-	}
+        }
 	else if ((to_delete->left && to_delete->right == NULL) ||
 		(to_delete->right && to_delete->left == NULL))
-	{
-		prev = to_delete->parent;
-		next = to_delete->left == NULL ? to_delete->right
-			: to_delete->left;
-		next->parent = prev;
-		if (prev->left == to_delete)
-			prev->left = next;
-		else
-			prev->right = next;
-		free(to_delete);
-	}
+		delete_1_child(to_delete);
 	else if (to_delete->left && to_delete->right)
-	{
-		successor_val = find_successor(to_delete->right);
-		successor = find_node(to_delete, successor_val);
-		prev = successor->parent;
-		to_delete->n = successor->n;
-		prev->left = NULL;
-		free(successor);
-	}
+		delete_2_children(to_delete);
 	return (root);
 }
