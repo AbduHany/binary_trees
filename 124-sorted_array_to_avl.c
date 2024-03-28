@@ -5,7 +5,8 @@
  * recursively into an AVL tree.
  * @rootnode: the root of the AVL tree to be added.
  * @array: pointer to the array with values to be added.
- * @size: number of elements in the array.
+ * @begin: beginning index of half of the array.
+ * @end: ending index of the half of the array.
  *
  * Return: returns pointer to the rootnode.
  */
@@ -20,6 +21,8 @@ avl_t *add_recursively(avl_t *rootnode, int *array, int begin, int end)
 	half = (begin + end) / 2;
 
 	newnode = binary_tree_node(rootnode, array[half]);
+	if (newnode == NULL)
+		return (NULL);
 	newnode->left = add_recursively(newnode, array, begin, half - 1);
 	newnode->right = add_recursively(newnode, array, half + 1, end);
 
