@@ -58,9 +58,11 @@ bst_t *bst_remove(bst_t *root, int value)
 	bst_t *to_delete, *prev, *next, *successor;
 	int successor_val;
 
+	if (root == NULL)
+		return (NULL);
 	to_delete = find_node(root, value);
 	if (to_delete == NULL)
-		return (NULL);
+		return (root);
 	if (to_delete->left == NULL && to_delete->right == NULL)
 	{
 		prev = to_delete->parent;
