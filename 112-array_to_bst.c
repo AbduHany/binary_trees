@@ -35,10 +35,7 @@ bst_t *array_to_bst(int *array, size_t size)
 	{
 		value = array[i];
 		if (bst_insert(&rootnode, value) == NULL)
-		{
-			free_bst(rootnode);
-			return (NULL);
-		}
+			continue;
 	}
 	return (rootnode);
 }
