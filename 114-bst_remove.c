@@ -62,10 +62,13 @@ bst_t *delete_2_children(bst_t *to_delete)
 		successor->left = to_delete->left;
 		to_delete->left->parent = successor;
 		successor->parent = to_delete->parent;
-		if (to_delete->parent->left == to_delete)
-			successor->parent->left = successor;
-		else
-			successor->parent->right = successor;
+		if (to_delete->parent)
+		{
+			if (to_delete->parent->left == to_delete)
+				successor->parent->left = successor;
+			else
+				successor->parent->right = successor;
+		}
 		free(to_delete);
 		return (successor);
 	}
