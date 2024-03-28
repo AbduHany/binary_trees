@@ -49,11 +49,21 @@ bst_t *insert_bst(bst_t **tree, int value)
 	return (newnode);
 }
 
+/**
+ *
+ */
 avl_t *avl_insert(avl_t **tree, int value)
 {
 	avl_t *newnode, *cursor;
 	int bf;
 
+	if(tree == NULL)
+		return (NULL)
+	if (*tree == NULL)
+	{
+		newnode = inset_bst(tree, value);
+		return (newnode);
+	}
 	newnode = insert_bst(tree, value);
 	cursor = newnode;
 	while (cursor)
