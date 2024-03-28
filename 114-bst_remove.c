@@ -52,6 +52,26 @@ int find_successor(const binary_tree_t *tree)
  */
 bst_t *delete_2_children(bst_t *to_delete)
 {
+	int successor_val;
+	bst_t *successor, *next, *prev;
+
+	successor_val = find_successor(to_delete->right);
+	successor = find_node(to_delete, successor_val);
+	if (successor->parent == to_delete)
+	{
+		successor->left = to_delete->left;
+		successor->left->parent = successor;
+		successor->parent = to_delete->parent;
+		free(to_delete);
+		return (successor);
+	}
+	prev = successor->parent;
+	next = successor->right;
+	prev->left = next;
+	if (next)
+		next->parent = prev;
+	to_delete->n = successor->n;
+	free(successor);
 	return (to_delete);
 }
 
@@ -69,12 +89,18 @@ bst_t *delete_1_child(bst_t *to_delete)
 	next = to_delete->left == NULL ? to_delete->right
 		: to_delete->left;
 	next->parent = prev;
-	if (prev->left == to_delete)
-		prev->left = next;
-	else
-		prev->right = next;
+	if (prev != NULL)
+	{
+		if (prev->left == to_delete)
+			prev->left = next;
+		else
+			prev->right = next;
+	}
 	free(to_delete);
-	return (prev);
+	if (prev != NULL)
+		return (prev);
+	else
+		return (next);
 }
 
 /**
@@ -88,26 +114,44 @@ bst_t *delete_1_child(bst_t *to_delete)
  */
 bst_t *bst_remove(bst_t *root, int value)
 {
-	bst_t *to_delete, *prev;
+	bst_t *to_delete = find_node(root, value), *prev, *replacement;
 
 	if (root == NULL)
 		return (NULL);
-	to_delete = find_node(root, value);
 	if (to_delete == NULL)
 		return (root);
+	/* node has no children - leaf node */
 	if (to_delete->left == NULL && to_delete->right == NULL)
 	{
 		prev = to_delete->parent;
-		if (prev->left == to_delete)
-			prev->left = NULL;
+		if (prev)
+		{
+			if (prev->left == to_delete)
+				prev->left = NULL;
+			else
+				prev->right = NULL;
+			free(to_delete);
+		}
 		else
-			prev->right = NULL;
-		free(to_delete);
-        }
+		{
+			free(to_delete);
+			return (NULL);
+		}
+	}
+	/* node has only one child */
 	else if ((to_delete->left && to_delete->right == NULL) ||
 		(to_delete->right && to_delete->left == NULL))
-		delete_1_child(to_delete);
+	{
+		replacement = delete_1_child(to_delete);
+		if (replacement->parent == NULL)
+			return (replacement);
+	}
+	/* node has 2 children */
 	else if (to_delete->left && to_delete->right)
-		delete_2_children(to_delete);
+	{
+		replacement = delete_2_children(to_delete);
+		if (replacement->parent == NULL)
+			return (replacement);
+	}
 	return (root);
 }
