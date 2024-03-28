@@ -64,12 +64,6 @@ avl_t *avl_insert(avl_t **tree, int value)
 
 	if (tree == NULL)
 		return (NULL);
-	if (*tree == NULL)
-	{
-		newnode = insert_bst(tree, value);
-		*tree = newnode;
-		return (newnode);
-	}
 	newnode = insert_bst(tree, value);
 	cursor = newnode;
 	while (cursor)
@@ -87,15 +81,18 @@ avl_t *avl_insert(avl_t **tree, int value)
 			{
 				binary_tree_rotate_left(cursor->left);
 				binary_tree_rotate_right(cursor);
+				cursor = cursor->parent->parent;
+				continue;
 			}
 			else if (value > cursor->n && value < cursor->right->n)
 			{
 				binary_tree_rotate_right(cursor->right);
 				binary_tree_rotate_left(cursor);
+				cursor = cursor->parent->parent;
+				continue;
 			}
 		}
 		cursor = cursor->parent;
 	}
-	printf("%d\n", newnode->n);
 	return (newnode);
 }
