@@ -48,3 +48,8 @@ bst_t *bst_insert(bst_t **tree, int value)
 		prev->right = newnode;
 	return (newnode);
 }
+
+avl_t *avl_insert(avl_t **tree, int value)
+{
+	bst_
+}
