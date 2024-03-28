@@ -114,10 +114,8 @@ avl_t *check_balance(avl_t *node, avl_t **replacement)
 	while (cursor)
 	{
 		bf_n = binary_tree_balance(cursor);
-		if (cursor->left)
-			bf_l = binary_tree_balance(cursor->left);
-		if (cursor->right)
-			bf_r = binary_tree_balance(cursor->right);
+		bf_l = binary_tree_balance(cursor->left);
+		bf_r = binary_tree_balance(cursor->right);
 
 		if (bf_n > 1 && bf_l >= 0)
 			binary_tree_rotate_right(cursor);
