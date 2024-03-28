@@ -115,25 +115,28 @@ avl_t *check_balance(avl_t *node, avl_t **replacement)
 	while (cursor)
 	{
 		bf_n = binary_tree_balance(cursor);
-		bf_l = binary_tree_balance(cursor->left);
-		bf_r = binary_tree_balance(cursor->right);
+		if (bf_n != 0 && bf_n != 1 && bf_n != -1)
+		{
+		        bf_l = binary_tree_balance(cursor->left);
+			bf_r = binary_tree_balance(cursor->right);
 
-		if (bf_n > 1 && bf_l >= 0)
-			binary_tree_rotate_right(cursor);
-		if (bf_n < -1 && bf_r <= 0)
-			binary_tree_rotate_left(cursor);
-		if (bf_n > 1 && bf_l < 0)
-		{
-			binary_tree_rotate_left(cursor->left);
-			binary_tree_rotate_right(cursor);
+			if (bf_n > 1 && bf_l >= 0)
+				binary_tree_rotate_right(cursor);
+			if (bf_n < -1 && bf_r <= 0)
+				binary_tree_rotate_left(cursor);
+			if (bf_n > 1 && bf_l < 0)
+			{
+				binary_tree_rotate_left(cursor->left);
+				binary_tree_rotate_right(cursor);
+			}
+			if (bf_n < -1 && bf_r > 0)
+			{
+				binary_tree_rotate_right(cursor->right);
+				binary_tree_rotate_left(cursor);
+			}
+			if (cursor->parent->parent == NULL)
+				*replacement = cursor->parent;
 		}
-		if (bf_n < -1 && bf_r > 0)
-		{
-			binary_tree_rotate_right(cursor->right);
-			binary_tree_rotate_left(cursor);
-		}
-		/* if (cursor->parent && cursor->parent->parent == NULL) */
-		/* *replacement = cursor->parent; */
 		cursor = cursor->parent;
 	}
 	return (node);
