@@ -70,11 +70,9 @@ int is_avl(const binary_tree_t *tree)
 
 int get_height(const binary_tree_t *tree)
 {
-	int lheight = 0, rheight = 0;
+	size_t lheight = 0, rheight = 0;
 
 	if (tree == NULL)
-		return (-1);
-	if (tree->left == NULL && tree->right == NULL)
 		return (0);
 
 	lheight = 1 + get_height(tree->left);
@@ -89,23 +87,16 @@ int check_heights(const binary_tree_t *tree)
 
 	if (tree == NULL)
 		return (1);
+
 	lh = get_height(tree->left);
 	rh = get_height(tree->right);
-	printf("lH = %d and RH = %d\n", lh, rh);
 
 	if (abs(lh - rh) > 1)
-	{
-		printf("HI");
-		return (0);
-	}
+		avl_flag = 0;
 	avl_flag &= check_heights(tree->left);
 	avl_flag &= check_heights(tree->right);
-	/* if ((abs(lh - rh) <= 1) && */
-	/*     (check_heights(tree->left)) && */
-	/*     (check_heights(tree->right))) */
-	/* 	return (1); */
 
-	return (avl_flag);
+	return(avl_flag);
 }
 
 /**
