@@ -110,6 +110,7 @@ avl_t *check_balance(avl_t *node, avl_t **replacement)
 	avl_t *cursor;
 	int bf_n, bf_l, bf_r;
 
+	(void)replacement;
 	cursor = node;
 	while (cursor)
 	{
@@ -132,7 +133,7 @@ avl_t *check_balance(avl_t *node, avl_t **replacement)
 			binary_tree_rotate_left(cursor);
 		}
 		/* if (cursor->parent && cursor->parent->parent == NULL) */
-		/* 	*replacement = cursor->parent; */
+		/* *replacement = cursor->parent; */
 		cursor = cursor->parent;
 	}
 	return (node);
