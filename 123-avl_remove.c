@@ -131,8 +131,8 @@ avl_t *check_balance(avl_t *node, avl_t **replacement)
 			binary_tree_rotate_right(cursor->right);
 			binary_tree_rotate_left(cursor);
 		}
-		if (cursor->parent && cursor->parent->parent == NULL)
-			*replacement = cursor->parent;
+		/* if (cursor->parent && cursor->parent->parent == NULL) */
+		/* 	*replacement = cursor->parent; */
 		cursor = cursor->parent;
 	}
 	return (node);
