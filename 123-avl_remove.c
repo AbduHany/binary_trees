@@ -122,14 +122,14 @@ avl_t *check_balance(avl_t *node, avl_t **replacement)
 
 			if (bf_n > 1 && bf_l >= 0)
 				binary_tree_rotate_right(cursor);
-			if (bf_n < -1 && bf_r <= 0)
+			else if (bf_n < -1 && bf_r <= 0)
 				binary_tree_rotate_left(cursor);
-			if (bf_n > 1 && bf_l < 0)
+			else if (bf_n > 1 && bf_l < 0)
 			{
 				binary_tree_rotate_left(cursor->left);
 				binary_tree_rotate_right(cursor);
 			}
-			if (bf_n < -1 && bf_r > 0)
+			else if (bf_n < -1 && bf_r > 0)
 			{
 				binary_tree_rotate_right(cursor->right);
 				binary_tree_rotate_left(cursor);
@@ -158,7 +158,7 @@ avl_t *avl_remove(avl_t *root, int value)
 	if (to_delete == NULL || root == NULL)
 		return (root);
 	if (to_delete->left == NULL && to_delete->right == NULL)
-	{
+	{			/* delete node with no children */
 		prev = to_delete->parent;
 		if (prev)
 		{
@@ -176,7 +176,7 @@ avl_t *avl_remove(avl_t *root, int value)
 		check_balance(prev, &prev);
 		if (prev->parent == NULL)
 			return (prev);
-	}
+	} /* delete node with one child only */
 	else if ((to_delete->left && to_delete->right == NULL) ||
 		(to_delete->right && to_delete->left == NULL))
 	{
@@ -184,7 +184,7 @@ avl_t *avl_remove(avl_t *root, int value)
 		check_balance(replacement, &replacement);
 		if (replacement->parent == NULL)
 			return (replacement);
-	}
+	} /* delete node with 2 children */
 	else if (to_delete->left && to_delete->right)
 	{
 		replacement = delete_2_children(to_delete);
