@@ -117,7 +117,7 @@ avl_t *check_balance(avl_t *node, avl_t **replacement)
 		bf_n = binary_tree_balance(cursor);
 		if (bf_n != 0 && bf_n != 1 && bf_n != -1)
 		{
-		        bf_l = binary_tree_balance(cursor->left);
+			bf_l = binary_tree_balance(cursor->left);
 			bf_r = binary_tree_balance(cursor->right);
 
 			if (bf_n > 1 && bf_l >= 0)
@@ -174,6 +174,8 @@ avl_t *avl_remove(avl_t *root, int value)
 			return (NULL);
 		}
 		check_balance(prev, &prev);
+		if (prev->parent == NULL)
+			return (prev);
 	}
 	else if ((to_delete->left && to_delete->right == NULL) ||
 		(to_delete->right && to_delete->left == NULL))
