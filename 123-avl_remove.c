@@ -100,10 +100,12 @@ avl_t *delete_1_child(avl_t *to_delete)
  * check_balance - checks on the balance of nodes
  * and does rotations accordingly to balance tree.
  * @node: pointer to node to check balance from.
+ * @replacement: double pointer to the node that
+ * replaces the deleted note after balancing.
  *
  * Return: pointer to node after balancing.
  */
-avl_t *check_balance(avl_t *node)
+avl_t *check_balance(avl_t *node, avl_t **replacement)
 {
 	avl_t *cursor;
 	int bf_n, bf_l, bf_r;
@@ -131,6 +133,8 @@ avl_t *check_balance(avl_t *node)
 			binary_tree_rotate_right(cursor->right);
 			binary_tree_rotate_left(cursor);
 		}
+		if (cursor->parent && cursor->parent->parent == NULL)
+			*replacement = cursor->parent;
 		cursor = cursor->parent;
 	}
 	return (node);
@@ -168,14 +172,14 @@ avl_t *avl_remove(avl_t *root, int value)
 			free(to_delete);
 			return (NULL);
 		}
-		check_balance(prev);
+		check_balance(prev, &prev);
 	}
 	/* node has only one child */
 	else if ((to_delete->left && to_delete->right == NULL) ||
 		(to_delete->right && to_delete->left == NULL))
 	{
 		replacement = delete_1_child(to_delete);
-		check_balance(replacement);
+		check_balance(replacement, &replacement);
 		if (replacement->parent == NULL)
 			return (replacement);
 	}
@@ -183,7 +187,7 @@ avl_t *avl_remove(avl_t *root, int value)
 	else if (to_delete->left && to_delete->right)
 	{
 		replacement = delete_2_children(to_delete);
-		check_balance(replacement);
+		check_balance(replacement, &replacement);
 		if (replacement->parent == NULL)
 			return (replacement);
 	}
