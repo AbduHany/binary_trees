@@ -73,23 +73,19 @@ avl_t *avl_insert(avl_t **tree, int value)
 		{
 			if (value > cursor->n &&
 			    value > cursor->right->n)
-				binary_tree_rotate_left(cursor);
+				return(binary_tree_rotate_left(cursor));
 			else if (value < cursor->n &&
 				 value < cursor->left->n)
-				binary_tree_rotate_right(cursor);
+				return(binary_tree_rotate_right(cursor));
 			else if (value < cursor->n && value > cursor->left->n)
 			{
 				binary_tree_rotate_left(cursor->left);
-				binary_tree_rotate_right(cursor);
-				cursor = cursor->parent->parent;
-				continue;
+				return(binary_tree_rotate_right(cursor));
 			}
 			else if (value > cursor->n && value < cursor->right->n)
 			{
 				binary_tree_rotate_right(cursor->right);
-				binary_tree_rotate_left(cursor);
-				cursor = cursor->parent->parent;
-				continue;
+				return(binary_tree_rotate_left(cursor));
 			}
 		}
 		cursor = cursor->parent;
