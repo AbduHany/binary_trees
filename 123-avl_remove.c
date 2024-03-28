@@ -119,14 +119,14 @@ avl_t *check_balance(avl_t *node)
 
 		if (bf_n > 1 && bf_l >= 0)
 			binary_tree_rotate_right(cursor);
-		if (bf_n < -1 && bf_r <= 0)
+		else if (bf_n < -1 && bf_r <= 0)
 			binary_tree_rotate_left(cursor);
-		if (bf_n > 1 && bf_l < 0)
+		else if (bf_n > 1 && bf_l < 0)
 		{
 			binary_tree_rotate_left(cursor->left);
 			binary_tree_rotate_right(cursor);
 		}
-		if (bf_n < -1 && bf_r > 0)
+		else if (bf_n < -1 && bf_r > 0)
 		{
 			binary_tree_rotate_right(cursor->right);
 			binary_tree_rotate_left(cursor);
