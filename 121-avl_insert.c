@@ -62,11 +62,12 @@ avl_t *avl_insert(avl_t **tree, int value)
 	avl_t *newnode, *cursor;
 	int bf;
 
-	if(tree == NULL)
+	if (tree == NULL)
 		return (NULL);
 	if (*tree == NULL)
 	{
 		newnode = insert_bst(tree, value);
+		*tree = newnode;
 		return (newnode);
 	}
 	newnode = insert_bst(tree, value);
@@ -95,5 +96,6 @@ avl_t *avl_insert(avl_t **tree, int value)
 		}
 		cursor = cursor->parent;
 	}
+	printf("%d\n", newnode->n);
 	return (newnode);
 }
