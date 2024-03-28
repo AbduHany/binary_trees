@@ -120,9 +120,7 @@ bst_t *bst_remove(bst_t *root, int value)
 {
 	bst_t *to_delete = find_node(root, value), *prev, *replacement;
 
-	if (root == NULL)
-		return (NULL);
-	if (to_delete == NULL)
+	if (to_delete == NULL || root == NULL)
 		return (root);
 	/* node has no children - leaf node */
 	if (to_delete->left == NULL && to_delete->right == NULL)
